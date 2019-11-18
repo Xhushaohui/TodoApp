@@ -84,15 +84,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   Container(
-                    height: 80,
-                    width: 80,
+                    height: 70,
+                    width: 70,
                     margin: EdgeInsets.only(
                         top: 120,
-                        left: MediaQuery.of(context).size.width * 0.5 - 40),
+                        left: MediaQuery.of(context).size.width * 0.5 - 35),
                     child: FloatingActionButton(
                       child: Icon(
                         Icons.add,
-                        size: 80,
+                        size: 60,
                       ),
                       backgroundColor: redColor,
                       onPressed: () {},
@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       icon: new Icon(Icons.perm_identity),
                     ),
                   ],
-                  labelColor: darkGrayColor,
+                  labelColor: Colors.red,
                   unselectedLabelColor: Colors.blue,
                   indicatorSize: TabBarIndicatorSize.label,
                   indicatorPadding: EdgeInsets.all(5.0),
