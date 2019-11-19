@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'models/UI/Intray/intray_page.dart';
+import 'UI/Intray/intray_page.dart';
 import 'models/global.dart';
 
 void main() => runApp(MyApp());
