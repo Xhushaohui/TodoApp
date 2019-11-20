@@ -28,10 +28,8 @@ class _IntrayPage extends State<IntrayPage> {
 
   Widget _buildReorderableList(BuildContext context) {
     return Theme(
-        data: ThemeData(
-          canvasColor: Colors.transparent
-        ),
-          child: ReorderableListView(
+      data: ThemeData(canvasColor: Colors.transparent),
+      child: ReorderableListView(
           padding: EdgeInsets.only(top: 300),
           children: taskList
               .map((Task item) => _buildListTitle(context, item))

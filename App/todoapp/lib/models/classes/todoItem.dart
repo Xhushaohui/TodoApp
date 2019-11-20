@@ -1,5 +1,3 @@
-
-
 class Task {
   List<Task> tasks;
   String note;
