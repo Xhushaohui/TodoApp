@@ -1,3 +1,5 @@
+import random
+import string
 from flask_restful import Resource
 from flask import request
 from models import db, User
@@ -23,7 +25,13 @@ class Register(Resource):
         if user:
             return {'message': 'User with the same email already exist'}, 400
 
+        api_key = self.generate_key()
+        user = User.query.filter_by(api_key=api_key).first()
+        if user:
+            return {'message': 'API key already exist'}, 400
+
         user = User(
+            api_key=api_key,
             firstname=json_data['firstname'],
             lastname=json_data['lastname'],
             email=json_data['email'],
@@ -35,3 +43,5 @@ class Register(Resource):
 
         result = user.serialize()
         return{"message": "success", "registering": result}, 201
+    def generate_key(self):
+        return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(50))

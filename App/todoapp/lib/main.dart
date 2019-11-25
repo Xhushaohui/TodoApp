@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/UI/Login/loginscreen.dart';
 import 'UI/Intray/intray_page.dart';
 import 'models/global.dart';
 
@@ -9,11 +10,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Todo App',
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: MyHomePage(title: 'Todo APp'),
+      home: LoginPage(),
     );
   }
 }
@@ -72,13 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   Container(
-
                     height: 70,
-                    width:  70,
+                    width: 70,
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height / 5.5,
-                        left: MediaQuery.of(context).size.width * 0.5 - 35
-                        ),
+                        left: MediaQuery.of(context).size.width * 0.5 - 35),
                     child: FloatingActionButton(
                       child: Icon(
                         Icons.add,
