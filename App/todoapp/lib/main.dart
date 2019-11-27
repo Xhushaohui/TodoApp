@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoapp/UI/Login/loginscreen.dart';
 import 'UI/Intray/intray_page.dart';
 import 'models/global.dart';
+import 'package:http/http.dart' as http;
+import 'package:todoapp/models/classes/user.dart';
+import 'package:todoapp/blocs/user_bloc_provider.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Todo App',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-      ),
-      home: LoginPage(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Todo App',
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+        ),
+        home: MyHomePage());
   }
 }
 
@@ -30,8 +34,42 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  SharedPreferences prefs;
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: getApiKey(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        String apiKey = "";
+        if (snapshot.hasData) {
+          apiKey = snapshot.data;
+          print("API KEY:" + snapshot.data);
+          print("There is data");
+        } else {
+          print("There is nooR data");
+        }
+        return apiKey.length > 0
+            ? getHomePage()
+            : LoginPage(
+                login: login,newUser: false,
+              );
+      },
+    );
+  }
+
+  void login(){
+    setState(() {
+      build(context);
+    });
+  }
+
+  Future getApiKey() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.getString("API_Token");
+  }
+
+  Widget getHomePage() {
     return MaterialApp(
       color: Colors.yellow,
       home: SafeArea(
@@ -47,6 +85,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.orange,
                       ),
                       new Container(
+                        child: Center(
+                          child: FlatButton(
+                            color: Colors.red,
+                            child: Text("Log Out"),
+                            onPressed: () {
+                              logOut();
+                            },
+                          ),
+                        ),
                         color: Colors.lightGreen,
                       )
                     ],
@@ -116,5 +163,18 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  logOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("API_Token", "");
+    setState(() {
+      build(context);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 }

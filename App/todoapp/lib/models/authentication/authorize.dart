@@ -28,7 +28,7 @@ class AuthService with ChangeNotifier {
       this.currentUser = {'email': email};
       notifyListeners();
       return Future.value(currentUser);
-    }else{
+    } else {
       this.currentUser = null;
       return Future.value(null);
     }
