@@ -31,19 +31,20 @@ class ApiProvider {
     }
   }
 
-  Future signinUser(String username, String password) async {
+  Future signinUser(String username, String password, String apiKey) async {
     final response = await client.post("http://127.0.0.1:5000/api/signin",
-        // headers: "",
+        headers: {
+          "Authorization" : apiKey
+        },
+       
         body: jsonEncode({
           "username": username,
           "password": password,
         }));
     final Map result = json.decode(response.body);
-    // print(response.body.toString());
-    print(result["registering"].toString());
     if (response.statusCode == 201) {
       // If the call to the server was successful, parse the JSON
-      await saveApiKey(result["registering"]["api_key"]);
+      await saveApiKey(result["Signin"]["api_key"]);
     } else {
       // If that call was not successful, throw an error.
       throw Exception('Failed to load post');
