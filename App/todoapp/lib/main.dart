@@ -34,44 +34,47 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  SharedPreferences prefs;
 
+  String apiKey = "";
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: signinUser(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        String apiKey = "";
         if (snapshot.hasData) {
           apiKey = snapshot.data;
-          print("API KEY:" + snapshot.data);
-          print("There is data");
+          // print(apiKey);
         } else {
-          print("There is nooR data");
+          print("No data!!");
         }
         return apiKey.length > 0
             ? getHomePage()
             : LoginPage(
-                login: login,newUser: false,
+                login: login,
+                newUser: false,
               );
       },
     );
   }
 
-  void login(){
+  void login() {
     setState(() {
       build(context);
     });
   }
 
   Future signinUser() async {
-    String apiKey = await getApiKey();
-    if (apiKey.length > 0) {
-      bloc.signinUser("", "", apiKey);
+    apiKey = await getApiKey();
+    if (apiKey != null) {
+      if (apiKey.length > 0) {
+        bloc.signinUser("", "", apiKey);
+      } else {
+        print("No api Key");
+      }
     }else{
-      print("No api Key");
+      apiKey = "";
     }
-    return apiKey;
+      return apiKey;
   }
 
   Future getApiKey() async {
@@ -90,7 +93,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   TabBarView(
                     children: [
-                      IntrayPage(),
+                      IntrayPage(
+                        apiKey: apiKey,
+                      ),
                       new Container(
                         color: Colors.orange,
                       ),

@@ -47,14 +47,16 @@ class Task(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
+    title = db.Column(db.String())
     note = db.Column(db.String())
     completed = db.Column(db.Boolean(), default=False, nullable=False)
     repeats = db.Column(db.String())
     deadline = db.Column(db.String())
     reminder = db.Column(db.String())
 
-    def __init__(self, user_id, note, completed, repeats, deadline, reminder):
+    def __init__(self, user_id, title, note, completed, repeats, deadline, reminder):
         self.user_id = user_id
+        self.title = title
         self.note = note
         self.completed = completed
         self.repeats = repeats
@@ -68,6 +70,7 @@ class Task(db.Model):
         return {
             'task_id' : self.id,
             'user_id' : self.user_id,
+            'title': self.title,
             'note': self.note,
             'completed': self.completed,
             'repeats': self.repeats,
