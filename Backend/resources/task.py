@@ -8,6 +8,7 @@ class Tasks(Resource):
     def post(self):
         json_data = request.get_json(force=True)
         header = request.headers["Authorization"]
+        print(header)
         if not header:
             return{"Message" : "No api Key"}, 400
         else:

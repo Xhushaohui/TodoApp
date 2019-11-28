@@ -45,6 +45,11 @@ class TaskBloc {
   Future<Null> _updateTasks(String apiKey) async {
     _tasks = await _repository.getUserTasks(apiKey);
   }
+
+  // Future<Null> _addUserTask(String apiKey, String taskName, String deadline) async{
+  //    await _repository.addUserTask(apiKey,taskName,deadline);
+  // }
+
 }
 
 final bloc = UserBloc();

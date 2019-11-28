@@ -19,7 +19,7 @@ class _IntrayPage extends State<IntrayPage> {
   @override
   void initState() {
     tasksBloc = TaskBloc(widget.apiKey);
-    print("API KEY:" + widget.apiKey);
+
   }
 
   @override
@@ -35,8 +35,21 @@ class _IntrayPage extends State<IntrayPage> {
           stream: tasksBloc.getTasks,
           initialData: [],
           builder: (context, snapshot) {
-            taskList = snapshot.data;
-            return _buildReorderableList(context, taskList);
+            if (snapshot.hasData && snapshot != null) {
+              if (snapshot.data.length > 0) {
+                return _buildReorderableList(context, snapshot.data);
+              }
+              else if (snapshot.data.length == 0){
+                  return Center(child: Text("No Task"));
+              }else if(snapshot.hasError){
+                return Container();
+              }
+              
+              return CircularProgressIndicator();
+            }
+           
+            // taskList = snapshot.data;
+            return _buildReorderableList(context, snapshot.data);
           },
         ));
   }
